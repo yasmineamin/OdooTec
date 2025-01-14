@@ -91,17 +91,34 @@ print(f"Precision: {precision:.4f}")
 print(f"Recall: {recall:.4f}")
 print(f"Accuracy: {accuracy:.4f}")
 
-# Count of each ticket type
+# Predict using the FastText model
+test_data['Predicted'] = test_data['Document'].apply(lambda x: model.predict(x)[0][0])
+
+# Compare predictions with actual labels
+test_data['Correct'] = test_data['Predicted'] == test_data['fasttext_format'].str.split(' ').str[0]
+
+# Count correct and incorrect predictions
+correct_counts = test_data['Correct'].value_counts()
+
+# Bar chart for correct/incorrect predictions
+plt.figure(figsize=(6, 4))
+sns.barplot(x=correct_counts.index, y=correct_counts.values, palette="viridis")
+plt.title('Prediction Accuracy')
+plt.ylabel('Count')
+plt.xlabel('Prediction Status')
+plt.xticks([0, 1], ['Incorrect', 'Correct'])
+plt.show()
+
+# Ticket type distribution pie chart
 ticket_type_counts = data['Topic_group'].value_counts()
 
-# Pie chart
 plt.figure(figsize=(8, 8))
 ticket_type_counts.plot.pie(autopct='%1.1f%%', startangle=140, cmap='viridis')
 plt.title('Ticket Type Distribution')
 plt.ylabel('')
 plt.show()
 
-# Bar chart
+# Ticket type distribution bar chart
 plt.figure(figsize=(10, 6))
 sns.barplot(x=ticket_type_counts.index, y=ticket_type_counts.values, palette="viridis")
 plt.title('Ticket Type Distribution')
