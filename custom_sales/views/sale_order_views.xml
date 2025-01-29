@@ -1,0 +1,150 @@
+<odoo>
+    <data>
+
+        <record id="view_order_form_inherit_review_stage" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit.review.stage</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state' and @widget='statusbar']" position="attributes">
+                    <attribute name="statusbar_visible">draft,draft_quotation,quotation_center_review,sent,sale
+                    </attribute>
+                </xpath>
+
+                <xpath expr="//header" position="inside">
+                    <button name="action_quotation_center_review"
+                            type="object"
+                            string="Send to QC"
+                            class="btn-primary"
+                            invisible="state != ('draft_quotation')"/>
+                </xpath>
+
+                <xpath expr="//button[@name='action_preview_sale_order']" position="attributes">
+                    <attribute name='invisible'>state == ('quotation_center_review')</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='action_confirm'][1]" position="before">
+
+                    <button name="action_confirm_to_quotation"
+                            string="Done"
+                            type="object"
+                            class="btn-success"
+                            invisible="state != ('quotation_center_review')"
+                            groups="custom_sales.group_quotation_center_review"/>
+                </xpath>
+
+                <xpath expr="//button[@name='action_cancel'][1]" position="attributes">
+                    <attribute name="invisible">
+                        state not in ['draft_quotation','draft', 'sent', 'sale'] or not id or locked
+                    </attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='action_draft']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='action_preview_sale_order']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+                <xpath expr="//field[@name='validity_date']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_order']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="readonly">parent.is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='note']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='signed_by']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='signed_on']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='signature']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='team_id']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='require_signature']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='require_payment']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='client_order_ref']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='tag_ids']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='sale_order_option_ids']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+                <xpath expr="//field[@name='sale_order_template_id']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='commitment_date']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='commitment_date']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='fiscal_position_id']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='journal_id']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='origin']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+                <xpath expr="//field[@name='campaign_id']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+                <xpath expr="//field[@name='medium_id']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='source_id']" position="attributes">
+                    <attribute name="readonly">is_readonly</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>

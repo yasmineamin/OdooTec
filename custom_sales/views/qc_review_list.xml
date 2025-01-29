@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record id="view_sale_order_quotation_center_review_list" model="ir.ui.view">
+            <field name="name">sale.order.quotation.center.review.list</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <list create="False">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="date_order"/>
+                    <field name="amount_total"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+        <record id="action_sale_order_quotation_center_review" model="ir.actions.act_window">
+            <field name="name">Quotation Center Review Orders</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('state', '=', 'quotation_center_review')]</field>
+            <field name="context">{'search_default_quotation_center_review': 1}</field>
+            <field name="view_id" ref="view_sale_order_quotation_center_review_list"/>
+            <field name="groups_id" eval="[(4, ref('custom_sales.group_quotation_center_review'))]"/>
+        </record>
+        <menuitem id="menu_sale_order_quotation_center_review"
+                  name="Quotation Center Reviews"
+                  action="action_sale_order_quotation_center_review"
+                  sequence="10"
+                  groups="custom_sales.group_quotation_center_review"
+                  web_icon="custom_sales,data/quoate.png"
+        />
+    </data>
+</odoo>

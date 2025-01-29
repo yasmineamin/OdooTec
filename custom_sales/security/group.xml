@@ -1,0 +1,8 @@
+<odoo>
+    <data>
+        <record id="group_quotation_center_review" model="res.groups">
+            <field name="name">Quotation Review Team</field>
+            <field name="category_id" ref="base.module_category_sales"/>
+        </record>
+    </data>
+</odoo>

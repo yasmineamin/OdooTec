@@ -1,0 +1,70 @@
+<odoo>
+    <record id="view_helpdesk_ticket_list_custom" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.list.custom</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_tree"/>
+        <field name="arch" type="xml">
+            <!-- Add the custom fields after the existing ones -->
+            <xpath expr="//list" position="inside">
+                <header>
+                    <button string="Type Of Ticket" type="object" name="action_classify_ticket" class="btn-primary"/>
+                    <button string="Sentiment Of Customer"
+                            type="object"
+                            name="action_analyze_sentiment"
+                            class="btn-primary"/>
+                </header>
+                <field name="classification"/>
+                <field name="sentiment_analysis"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit the existing helpdesk ticket form view -->
+    <record id="view_helpdesk_ticket_form_custom" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.form.custom</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Add the custom fields after the existing ones in the form view -->
+<!--            <xpath expr="/form/sheet" position="before">-->
+<!--                <header>-->
+<!--                    <button string="Type Of Ticket" type="object" name="action_classify_ticket" class="btn-primary"/>-->
+<!--                    <button string="Sentiment Of Customer"-->
+<!--                            type="object"-->
+<!--                            name="action_analyze_sentiment"-->
+<!--                            class="btn-primary"/>-->
+<!--                </header>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='email_cc']" position="after">
+                <!-- Display classification result -->
+                <field name="classification" readonly="1"/>
+                <field name="sentiment_analysis" readonly="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_helpdesk_ticket_search_custom" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.search.custom</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_tickets_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <filter string="Ticket Sentiment Analysis" name="group_by_sentiment" domain="[]"
+                        context="{'group_by': 'sentiment_analysis'}"/>
+                <filter string="Ticket Type Classification" name="group_by_classification" domain="[]"
+                        context="{'group_by': 'classification'}"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="action_helpdesk_ticket" model="ir.actions.act_window">
+        <field name="name">Helpdesk Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="helpdesk.helpdesk_tickets_view_tree"/>
+        <field name="context">{'group_by': 'sentiment_analysis'}</field>
+        <field name="context">{'group_by': 'classification'}</field>
+        <field name="domain">[]</field>
+    </record>
+
+</odoo>
