@@ -1,0 +1,6 @@
+# Bytecode files
+*.pyc
+*.pyo
+_pycache_/
+
+Tickets/data/
