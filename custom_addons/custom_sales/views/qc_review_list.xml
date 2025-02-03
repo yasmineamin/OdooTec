@@ -27,7 +27,7 @@
                   action="action_sale_order_quotation_center_review"
                   sequence="10"
                   groups="custom_sales.group_quotation_center_review"
-                  web_icon="custom_sales,data/quoate.png"
+                  web_icon="custom_sales,static/quoate.png"
         />
     </data>
 </odoo>

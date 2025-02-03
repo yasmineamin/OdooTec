@@ -15,6 +15,18 @@ class SaleOrder(models.Model):
     def action_quotation_center_review(self):
         self.write({'state': 'quotation_center_review'})
 
+        # Get all users in the Quotation Center Review group
+        quotation_center_group = self.env.ref('custom_sales.group_quotation_center_review')
+        partner_ids = quotation_center_group.users.mapped('partner_id.id')
+
+        # Post a message to all users in the Quotation Center Review group
+        self.message_post(
+            body="The quotation has been sent for Quotation Center Review.",
+            subject="Quotation Review Request",
+            message_type="notification",  # This will create a message in the users' inbox
+            subtype_xmlid="mail.mt_comment",  # Standard comment subtype
+            partner_ids=partner_ids,  # Send the message to the group members
+        )
 
     def action_confirm_after_review(self):
         self.write({'state': 'sale'})
@@ -26,7 +38,8 @@ class SaleOrder(models.Model):
             'type': 'ir.actions.client',
             'tag': 'reload',
             'params': {
-                'menu_id': self.env.ref('custom_sales.menu_sale_order_quotation_center_review').id, }
+                'menu_id': self.env.ref('custom_sales.menu_sale_order_quotation_center_review').id,
+            }
         }
 
     is_readonly = fields.Boolean(string="Is Readonly", compute="_compute_is_readonly", store=False)
@@ -41,4 +54,3 @@ class SaleOrder(models.Model):
             # - The state is 'draft' or 'quotation_center_review'.
             # - The user is NOT in the 'group_quotation_center_review' group.
             record.is_readonly = state_readonly and not user_in_group
-
