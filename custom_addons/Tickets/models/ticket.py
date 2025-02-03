@@ -32,7 +32,7 @@ class Ticket(models.Model):
     def load_sentiment_model(self):
         """Load FastText sentiment model from data directory"""
         model_path = os.path.join(
-            "C:/Users/manar/odooprojects/Ticketing/custom_addons/Tickets/data",
+            "C:/Users/manar/odooprojects/OdooTec/custom_addons/Tickets/data",
             'sentiment_modelll.bin'
         )
         try:
@@ -75,7 +75,7 @@ class Ticket(models.Model):
     def load_ticketing_model(self):
         """Load FastText classification model from data directory"""
         model_path = os.path.join(
-            "C:/Users/manar/odooprojects/Ticketing/custom_addons/Tickets/data",
+            "C:/Users/manar/odooprojects/OdooTec/custom_addons/Tickets/data",
             'fasttext_category_classifier.bin'
         )
         try:
@@ -98,7 +98,7 @@ class Ticket(models.Model):
 
         try:
             prediction = model.predict(sanitized, k=1)
-            return prediction[0][0].replace("__label__", "") if prediction else "Unknown"
+            return (prediction[0][0].replace("__label__", "")[0].upper() + prediction[0][0].replace("__label__", "")[1].lower() + prediction[0][0].replace("__label__", "")[2:].lower()) if prediction else "unknown"
         except Exception as e:
             print(f"Classification error: {str(e)}")
             return "Error"
